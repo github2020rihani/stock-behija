@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+            <!-- Font Awesome -->
+            <!-- Theme style -->
+            <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+            <!-- overlayScrollbars -->
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href=" {{ asset('css/alt/adminlte.light.min.css') }}">
+            <!-- Ionicons -->
+            <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+            <!-- Tempusdominus Bootstrap 4 -->
+            <link rel="stylesheet" href="{{ asset('css/tempusdominus-bootstrap-4.min.css') }}">
+            <!-- iCheck -->
+            <link rel="stylesheet" href="{{ asset('css/icheck-bootstrap.min.css') }}">
+            <!-- JQVMap -->
+            <link rel="stylesheet" href="{{ asset('css/jqvmap/jqvmap.min.css') }}">
+            <!-- Theme style -->
+            <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+            <!-- overlayScrollbars -->
+            <link rel="stylesheet" href="{{ asset('css/OverlayScrollbars.min.css') }}">
+            <!-- Daterange picker -->
+            <link rel="stylesheet" href="{{ asset('css/daterangepicker.css') }}">
+            <!-- summernote -->
+            <link rel="stylesheet" href="{{ asset('css/summernote-bs4.min.css') }}">
+            <!-- Google Font: Source Sans Pro -->
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+            <!-- Font Awesome -->
+            <!-- Select2 -->
+            <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+            <!-- Theme style -->
+            <!-- overlayScrollbars -->
+        {% endblock %}
+
+        {% block javascripts %}
+            {#{{ encore_entry_script_tags('app') }}#}
+        {% endblock %}
+    </head>
+    <body>
+
+    {{ include('includes/aside_bar.html.twig') }}
+
+        {% block body %}{% endblock %}
+
+
+
+    {% block javascript %}
+
+    <!-- jQuery -->
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }} "></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <!-- overlayScrollbars -->
+    <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('js/adminlte.min.js') }}"></script>
+
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ asset('js/demo.js') }}"></script>
+
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<script>
+    $(function () {
+      $('.select2').select2()
+    });
+</script>
+
+{% endblock %}
+
+    </body>
+</html>

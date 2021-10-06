@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <h1>Produit</h1>
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <article class="pin bg-white rounded shadow ">
+                <div class="mw-100 rounded-top overflow-hidden">
+                    <a href="{{ path('produit_show', {'id': produit.id}) }}">
+                        <img src="{{ (produit.imageName ?  vich_uploader_asset(produit): asset('build/images/1.jpg'))   }}"
+                             class="w-100 "  alt="{{ produit.designation }} ">
+                    </a>
+                </div>
+                <h2 class="h5 pt-3 text-center"><a href="{{ path('produit_show', {'id': produit.id}) }}" class="text-muted text-decoration-none"> {{ produit.designation }}</a></h2>
+                <p class=" text-center text-muted">
+                    <small>
+                        <time datetime="{{ produit.createdAt|date('y-m-j H:i') }}"> {{ produit.createdAt|ago }}</time>
+                        by [OWER FULL NAME]
+                    </small>
+                </p>
+                <p class="text-center">
+                    {{ produit.designation  }}
+                </p>
+                <div class="text-center">
+                    <a href="{{ path('produit_edit',{ 'id': produit.id }) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ path('produit_delete',{'id': produit.id }) }}" class="btn btn-primary">Delete</a></div>
+            </article>
+
+
+        </div>
+    </div>
+
+
+    <a href="{{ path('produit_index') }}">back to list</a>
+
+    <a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
+
+    {{ include('produit/_delete_form.html.twig') }}
+{% endblock %}

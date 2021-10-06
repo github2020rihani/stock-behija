@@ -1,0 +1,256 @@
+{# {{ include('commande/_form.html.twig') }} #}
+
+
+
+   {% extends 'base.html.twig' %}
+
+{% block title %}Hello {% endblock %}
+
+{% block body %}
+    <div class="content-wrapper" style="min-height: 1602px;">
+
+        {# <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Commandes</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Table row -->
+                        <div class="row">
+                            <div class="col-12 table-responsive">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                    {{ form_start(form) }}
+                                    <tr>
+                                        <th>Num Commande</th>
+                                        <td>{{ form_widget(form.numCmd) }}</td>
+                                        <th>Date</th>
+                                        <td>{{ form_widget(form.dateCmd) }}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th>Observation</th>
+                                        <td>{{ form_widget(form.satusCmd) }}</td>
+                                        <th>Client</th>
+                                        <td>{{ form_widget(form.client) }}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th>Fournisseur</th>
+                                        <td>{{ form_widget(form.fournisseur) }}</td>
+                                    </tr>
+
+
+                                    </thead>
+
+                                </table>
+                                {{ form_end(form) }}
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                    <!-- /.invoice -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            <!-- /.container-fluid -->
+        </section> #}
+
+        <!-- /.content -->
+
+        <form action="" method="post">
+
+            <div class="container">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <i class="icon_menu"></i>Gestion Commande
+                    </div>
+
+                    <div class="panel-body">
+                        <table class="table-condensed">
+                            <tr>
+
+                                <td>Date Commande :</td>
+                                <td>{{ form_widget(form.dateCmd) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Client :</td>
+                                <td>{{ form_widget(form.client) }}</td>
+                                <th>Fournisseur :</th>
+                                <td>{{ form_widget(form.fournisseur) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Observation :</td>
+                                <td>{{ form_widget(form.satusCmd) }}</td>
+                            </tr>
+                        </table>
+
+
+                        <div class="row">
+                            <div class="col-lg-8 col-xs-12">
+                                <h4>Produits</h4>
+                                <ul class="add-elements"
+                                    data-prototype="{{ form_widget(form.lcommandes.vars.prototype)|e }}">
+                                    {% for element in form.lcommandes %}
+
+
+                                        <li>
+                                            {{ form_widget(element) }}
+
+                                        </li>
+
+                                    {% endfor %}
+                                    <li>
+                                        {{ form_widget(form.lcommandes) }}
+                                    </li>
+                                </ul>
+
+                                <button type="submit" class="btn btn-primary">Add</button>
+                                {{ form_end(form) }}
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+{{ parent() }}
+
+<script>
+var $addElementLink = $('<button href="#" id="btn-add-file-element" class="btn btn-default" type="button"><i class="fa fa-plus"></i> Ajouter un produit</button>');
+var $newLinkLi = $('<li class="li-btn-add"><div class="col-lg-12" style="margin-top: 20px"></div></li>').append($addElementLink);
+var removeLink = '<a href="#" class="remove-item-collection text-danger" style="font-size: 13px" title="Supprimer"><i class="fa fa-trash"></i> Supprimer</a>';
+
+$(document).ready(function () {
+
+    // Get the ul that holds the collection of elements
+    var $collectionHolder = $('ul.add-elements');
+
+    // add a delete link to all of the existing file form li elements
+    $collectionHolder.find('li').each(function () {
+        addElementFormDeleteLink($(this));
+    });
+
+    // add the "add a file" anchor and li to the elements ul
+    $collectionHolder.append($newLinkLi);
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addElementLink.on('click', function (e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new element form (see code block below)
+       addElementForm($collectionHolder, $newLinkLi);
+
+    });
+
+
+});
+function addElementForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    //hetha ki consolitou cnsole.log(index) nal9ah 1 w 2 w 3
+
+
+    // Replace '$$name$$' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a element" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+
+    // also add a remove button, just for this example
+    $newFormLi.find('div').last().append(removeLink);
+
+    $newLinkLi.before($newFormLi);
+
+    // handle the removal, just for this example
+    $('.remove-item-collection').click(function (e) {
+        e.preventDefault();
+
+        $(this).parentsUntil('li').fadeOut(function () {
+            $(this).parents('li').remove();
+        });
+
+        return false;
+    });
+
+    // add a delete link to the new form
+    //addElementFormDeleteLink($newFormLi);
+     getInfoProduct(index);
+
+
+
+}
+
+function addElementFormDeleteLink($elementFormLi) {
+    var $removeFormA = $(removeLink);
+    $elementFormLi.find('div').last().append($removeFormA);
+
+    $removeFormA.on('click', function (e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        $elementFormLi.fadeOut(function () {
+            // remove the li for the element form
+            $elementFormLi.remove();
+        });
+
+    });
+}
+
+
+
+function getInfoProduct(index) {
+            $('#commande_lcommandes_'+index+'_produit').on('change', function () {
+        var id_prod= $(this).val();
+        var url =  '/admin/commande/info_product/'+id_prod; //lezem fos js routing , hetheka behy fosjs routing
+
+        $.ajax({
+        url: url,
+        dataType: 'json',
+         data: { id_prod: id_prod },
+       success: function (data) {
+            $('#commande_lcommandes_'+index+'_prixHt').val(data.res.prix);
+            $('#commande_lcommandes_'+index+'_tva').val(data.res.tva);
+            $('#commande_lcommandes_'+index+'_qte').val(data.res.qte);
+//lezem tkoun dynamique , hetha ye5dem ken ala loula kahwa thenya le
+//lezem 1 twali index  kima index 5ater chouf kifech
+// behy w rit commande_lcommandes_'+1+'_produit ken tchouf kifech tzidou class
+//select kol andhom nafs class yebdem w lezem kifech t3adi index binethom akeli 1 / 2 /3 / ... betheka sayer just te5dem hethi ama kili statique loula kahaw
+        }, error() {
+
+        }
+    })
+
+    })
+
+}
+
+
+</script>
+{% endblock %}
+
+

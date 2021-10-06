@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie index{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper" style="min-height: 1602px;">
+
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1> Sorties</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NumSortie</th>
+                <th>Produit</th>
+                <th>Quantite</th>
+                <th>Prix</th>
+                <th>DateSortie</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sorties in sorties %}
+            <tr>
+
+                <td>{{ sorties.numSortie }}</td>
+                <td>{{ sorties.produits.designation }}</td>
+                <td>{{ sorties.quantite }}</td>
+                <td>{{ sorties.prix }}</td>
+
+                <td>{{ sorties.dateSortie ? sorties.dateSortie|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('admin_sortie_home', {'id': sorties.id}) }}">show</a>
+                    <a href="{{ path('admin_sortie_edit', {'id': sorties.id}) }}">edit</a>
+                    <a href="{{ path('admin_sortie_delete', {'id': sorties.id}) }}">delete</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_sortie_new') }}">Create new</a>
+                </div></div></div></section>
+
+
+    </div>
+{% endblock %}

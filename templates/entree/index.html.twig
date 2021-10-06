@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entree index{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper" style="min-height: 1602px;">
+
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Ajouter Entree</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NumEntre</th>
+                <th>Produit</th>
+                <th>Quantite</th>
+                <th>Prix</th>
+                <th>DateEntre</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entree in entrees %}
+            <tr>
+
+                <td>{{ entree.numEntre }}</td>
+                <td>{{ entree.produits.designation }}</td>
+                <td>{{ entree.quantite }}</td>
+                <td>{{ entree.prix }}</td>
+
+                <td>{{ entree.dateEntre ? entree.dateEntre|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('admin_entree_home', {'id': entree.id}) }}">show</a>
+                    <a href="{{ path('admin_entree_edit', {'id': entree.id}) }}">edit</a>
+                    <a href="{{ path('admin_entree_delete', {'id': entree.id}) }}">delete</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_entree_ajout') }}">Create new</a>
+                </div></div></div></section>
+
+
+    </div>
+{% endblock %}

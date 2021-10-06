@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande index{% endblock %}
+
+{% block body %}
+
+<div class="content-wrapper" style="min-height: 1602px;">
+
+
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+
+                         {{ include('commande/_form.html.twig', {'button_label': 'Update'}) }}
+
+                         </div>
+                    </div>
+</div>
+
+
+{% endblock %}

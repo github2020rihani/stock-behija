@@ -1,0 +1,51 @@
+
+      <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1><a href="{{ path('admin_commande_home') }}">Commandes</a> </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Table row -->
+                        <div class="row">
+                            <div class="col-12 table-responsive">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                    {{ form_start(form) }}
+                                    <tr>
+                                        <th>Num Commande</th>
+                                        <td>{{ form_widget(form.numCmd) }}</td>
+                                        <th>Date</th>
+                                        <td>{{ form_widget(form.dateCmd) }}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th>Observation</th>
+                                        <td>{{ form_widget(form.satusCmd) }}</td>
+                                        <th>Client</th>
+                                        <td>{{ form_widget(form.client) }}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th>Fournisseur</th>
+                                        <td>{{ form_widget(form.fournisseur) }}</td>
+                                    </tr>
+
+
+                                    </thead>
+
+                                </table>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+

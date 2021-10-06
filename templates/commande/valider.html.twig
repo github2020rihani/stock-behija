@@ -1,0 +1,115 @@
+<form action="" method="post" >
+
+    <div class ="container">
+        <div class ="panel panel-primary">
+            <div class ="panel-heading">
+                <i class="icon_menu"></i>Gestion Commande
+            </div>
+
+            <div class ="panel-body">
+                <table class ="table-condensed">
+                    <tr>
+                        <td>Numéro commande : </td>
+                        <td>{{ form_widget(form.numCmd) }}</td>
+                        <td>Date Commande : </td>
+                        <td>{{ form_widget(form.dateCmd) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Client  : </td>
+                        <td>{{ form_widget(form.client) }}</td>
+                        <th>Fournisseur : </th>
+                        <td>{{ form_widget(form.fournisseur) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Observation : </td>
+                        <td>{{ form_widget(form.satusCmd) }}</td>
+                    </tr>
+                </table>
+                <table class ="table">
+
+                    <th class="col-md-1">Produit</th>
+                    <th class="col-md-1">Prix HT</th>
+                    <th class="col-md-1">Prix TTC</th>
+                    <th class="col-md-1">Qté</th>
+
+                    <th class="col-md-1">Mont Ht</th>
+                    <th class="col-md-1">Action</th>
+
+                    <tr>
+                        <td class="col-md-1">
+                            <input type="text">
+                        </td>
+                        <td class="col-md-1" >
+                            <input type="text">
+
+                        </td>
+                        <td class="col-md-1">
+                            <input type="text">
+                        </td>
+                        <td class="col-md-1">
+                            <input type="text">
+                        </td>
+                        <td class="col-md-1">
+
+                        </td>
+
+                        <td class="col-md-1">
+                            <a href="{{ path('admin_commande_new') }}"
+                               class = "btn btn-primary">
+                                <i class = "glyphicon glyphicon-save"></i>Ajout</a>
+                        </td>
+
+                    </tr>
+
+                </table>
+                <table class ="table  table-condensed">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Ligne</th>
+                        <th class="col-md-2">Désignation Article</th>
+                        <th class="col-md-1">PU</th>
+                        <th class="col-md-1">Qte</th>
+                        <th class="col-md-1">Tva</th>
+                        <th class="col-md-1">Mont ht</th>
+                        <th class="col-md-1">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td class="col-md-2"></td>
+                        <td class="col-md-2"></td>
+                        <td class="col-md-2"></td>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-1" ></td>
+                        <td class="col-md-1"><a href=""
+                                                class = "btn btn-danger">
+                                <i class = "glyphicon glyphicon-apple"></i>
+                                Supprimer</a></td>
+
+
+
+                    </tbody>
+                </table>
+
+
+                <tfoot>
+                <table class = "table table-condensed">
+                    <tr>
+                        <td>Tot Ht :</td>
+                        <td class="col-md-2"></td>
+
+                        <td>Tot Tva :</td>
+                        <td class="col-md-2"></td>
+                        <td>Tot TTC :</td>
+                        <td class ="col-md-2"></td>
+                    </tr>
+
+
+                </table>
+                </tfoot>
+                <td><input type="submit" value = "Valider" name ="bt"
+                           class = "btn btn-success"> <i class = "glyphicon glyphicon-save"></i></td>
+            </div></div></div>  </form>

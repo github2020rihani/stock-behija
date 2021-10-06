@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Fournisseur{% endblock %}
+
+{% block body %}
+
+    {{ include('fournisseur/_form.html.twig') }}
+
+    <a href="{{ path('admin_fournisseur_home') }}">back to list</a>
+{% endblock %}
