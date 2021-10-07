@@ -2,7 +2,8 @@
 
 use App\Kernel;
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php;C:\php\pear';
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
 
 
 
