@@ -2,10 +2,11 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Categories;
+use App\Entity\Categories ;
 use App\Form\CategoriesType;
 use App\Repository\CategoriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,5 +90,37 @@ class CategoriesController extends AbstractController
         return $this->redirectToRoute('admin_categories_home');
 
 
+    }
+    /**
+     * Render the search form
+     */
+    public function searchForm(Request $request)
+    {
+        $form = $this->createForm(CategoriesType::class);
+        $form->handleRequest($request);
+
+        return $this->render('admin/categories/index.html.twig', array(
+            'search_form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Search entities
+     *
+     * @Route("/search", name="app_category_search")
+
+     */
+    public function search(Request $request, PaginatorInterface $paginator)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $data = $request->query->all();
+        $form = $this->createForm(CategoriesType::class);
+        $form->handleRequest($request);
+        $qb = $em->getRepository('App:Categories')->searchBack($data);
+        $entities = $paginator->paginate($qb, $request->query->get('page', 1), 20);
+        return $this->render('admin/categories/search_form.html.twig', array(
+            'entities' => $entities,
+            'search_form'=>$form->createView()
+        ));
     }
 }

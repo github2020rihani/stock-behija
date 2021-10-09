@@ -2,18 +2,24 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Produit;
 use App\Entity\Categories;
 use App\Entity\Entree;
-use App\Entity\Produit;
 use App\Form\CategoriesType;
 use App\Form\EntreeType;
+use App\Form\FilterType;
 use App\Form\ProduitType;
-use App\Repository\CategoriesRepository;
+use App\Model\Filter;
 use App\Repository\ProduitRepository;
+use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryBuilderInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,79 +31,44 @@ class ProduitController extends AbstractController
     /**
      * @Route("/", name="produit_index")
      */
-    public function index(Request $request, ProduitRepository $produitRepository, CategoriesRepository $catRepo): Response
+    public function index2(Request $request, ProduitRepository $produitRepository): Response
     {
-        //$produits = $produitRepository->findBy([], ['createdAt'=>'DESC']);
-        // recherche selon  le nom de produit (designation)
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
         $produits = $this->getDoctrine()->getRepository(Produit::class)->findAll();
-
+         $em= $this->getDoctrine()->getManagers();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em =  $this->getDoctrine()->getManagers();
-            $em->persist($produit);
-            $em->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($produit);
+            $entityManager->flush();
 
         }
         return $this->render('produit/index.html.twig', [
             'form' => $form->createView(),
             'produits' => $produits]);
     }
-        /** recherche selon categorie
-        $categorie = new Categories();
-        $form = $this->createForm(CategoriesType::class,$categorie);
-        $form->handleRequest($request);
+    /**
+     * @Route("/",  name="produit_index")
+     */
+    public function index(Request $request, FormFactoryInterface $formFactory, PaginatorInterface $paginator, SessionInterface $session, ProduitRepository $produitRepository)
+    {
+        $filter = new Filter();
+        $form = $formFactory->create(FilterType::class, $filter);
 
-        $produits= [];
+         $em = $this->getDoctrine()->getManager();
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $categorie = $produitRepository->getCategirie();
+         $query = $em->getRepository(Produit::class)->findAll();
 
-            if ($categorie!="")
-            {
+       $produits = $paginator->paginate($query, $request->query->get('page', 1), 5);
 
-                $produits= $this->getDoctrine()->getRepository(Produit::class)->findBy(['$categorie' => $categorie] );
-            }
-            else
-                $produits= $this->getDoctrine()->getRepository(Produit::class)->findAll();
-        }
-
-        return $this->render('produit/index.html.twig',[
-            'form' => $form->createView(),
-            'Produits' => $Produit
-        ]);
-
-        // recherche selon la date d'entree
-
-        $dateEntree = new Entree();
-        $form = $this->createForm(EntreeType::class,$dateEntree);
-        $form->handleRequest($request);
-
-        $produits= [];
-
-        if($form->isSubmitted() && $form->isValid()) {
-            $dateEntree = $Produit->getDateEntree();
-
-            if ($dateEntree!="")
-            {
-
-                $produits= $this->getDoctrine()->getRepository(Produit::class)->findBy(['$categorie' => $categorie] );
-            }
-            else
-                $produits= $this->getDoctrine()->getRepository(Produit::class)->findAll();
-        }
-
-        return $this->render('produit/index.html.twig',[
-            'form' => $form->createView(),
-            'Produits' => $Produit
-        ]);
-
+        return $this->render('produit/index.html.twig', array(
+            'produits' => $produits,
+            'form'=>$form->createView()
+        ));
     }
 
-
-}*/
 
 
     /**
@@ -165,4 +136,16 @@ class ProduitController extends AbstractController
 
         return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     *  $quantite = $session->get('quatite', []);
+    $panierwithDate = [];
+    foreach ($quantite as $id=> $quatite ){
+    $panierwithDate[] = [
+    'produit'=> $produitRepository->find($id),
+    'quantite'=> $produitRepository->findBy($quatite)
+    ];
+    }
+    dd($panierwithDate);
+     */
 }

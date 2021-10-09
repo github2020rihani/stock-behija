@@ -52,21 +52,19 @@ class Categories
      */
     private $produits;
 
-    /**
-     * @ORM\OneToMany(targetEntity=SousCat::class, mappedBy="categories", orphanRemoval=true)
-     */
-    private $sousCats;
-
     public function __construct()
     {
         $this->produits = new ArrayCollection();
-        $this->sousCats = new ArrayCollection();
     }
+
+
+
+
+
     public function __toString()
     {
         return $this->name;
     }
-
 
     /**
      * @return \DateTime
@@ -159,36 +157,5 @@ class Categories
 
         return $this;
     }
-
-    /**
-     * @return Collection|SousCat[]
-     */
-    public function getSousCats(): Collection
-    {
-        return $this->sousCats;
-    }
-
-    public function addSousCat(SousCat $sousCat): self
-    {
-        if (!$this->sousCats->contains($sousCat)) {
-            $this->sousCats[] = $sousCat;
-            $sousCat->setCategories($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSousCat(SousCat $sousCat): self
-    {
-        if ($this->sousCats->removeElement($sousCat)) {
-            // set the owning side to null (unless already changed)
-            if ($sousCat->getCategories() === $this) {
-                $sousCat->setCategories(null);
-            }
-        }
-
-        return $this;
-    }
-
 
 }
