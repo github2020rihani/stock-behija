@@ -1,71 +1,183 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit index{% endblock %}
-
+{% block title %}Hello Page blanck{% endblock %}
 {% block body %}
-
-<div class="content-wrapper" style="min-height: 1602px;" xmlns="http://www.w3.org/1999/html">
-
+<div class="content-wrapper" style="min-height: 1604.44px;">
+    <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Produit index</h1>
+                    <h3> Search Products</h3>
                 </div>
             </div>
-            <div class="form-group row">
+        </div><!-- /.container-fluid -->
+    </section>
 
-                <div class="col-sm-2" id >
-                  {{ form_start(form) }}
-                  {{form_row(form)}}
-
-                  <button type="submit" class="btn btn-primary">Search</button>
-                   {{form_end(form)}}
+    <section class="content">
+        <!-- Default box -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">General</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
 
                 </div>
+                {{ form_start(form) }}
+            </div>
+            <div class="card-body">
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-md-3">
+{#                                <div class="form-group">#}
+{#                                    <div class="input-group ">#}
+{#                                        <div class="input-group-append">#}
+{#                                            <button type="submit" class="btn btn-default">#}
+{#                                                <i class="fa fa-search"></i>#}
+{#                                            </button>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_row(form.keyWord) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form_row(form.categories) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
 
 
-     <table class="table">
-        <thead>
-            <tr>
+                                </div>
+                            </div>
+                            {{ form_rest(form) }}
 
-                <th>Code Produit</th>
-                <th>Designation</th>
-                <th>Quantite</th>
-                <th>Image</th>
-                <th>Prix</th>
-                <th>Tva</th>
-                <th>Unite</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for produit in produits %}
-            <tr>
-                <td>{{ produit.code }}</td>
-                <td>{{ produit.designation }}</td>
-                <td>{{ produit.quantite }}</td>
-                <td>{{ produit.imageName }}</td>
-                <td>{{ produit.prixHt }}</td>
-                <td>{{ produit.tva }}</td>
-                <td>{{ produit.unite }}</td>
+                            {{ form_end(form) }}
+
+                        </div>
+
+                        <form>
+                            <div class="row">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <a href="{{ path('produit_ajout') }}" type="submit"
+                                               class="btn btn-success float-right">Create new Product</a>
+                                        </div>
+                                    </div>
 
 
+                            </div>
+                    </div>
+                    </form>
+                    <div class="card-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
 
-{#   <!--<td>{{ produit.createdAt ? produit.createdAt|date('Y-m-d H:i:s') : '' }}</td>-->#}{#
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="example1"
+                                                   class="table table-bordered table-striped dataTable dtr-inline"
+                                                   aria-describedby="example1_info">
+                                                <thead>
+                                                <tr>
+                                                    <th>Num article</th>
+                                                    <th>Designation</th>
+                                                    <th>Quatite</th>
+                                                    <th>Prix HT</th>
+                                                    <th>Tva</th>
+                                                    <th>Unite</th>
+                                                    <th>Images</th>
+                                                    <th>Actions</th>
 
-                <td>
-                    <a href="{{ path('produit_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
-                    <a href=" {{ path('produit_delete', { 'id': produit.id }) }}">delete</a>
-                </td>
-            </tr>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for produit in produits %}
+                                                <tr class="odd">
+                                                    <td>{{ produit.code }}</td>
+                                                    <td>{{ produit.designation }}</td>
+                                                    <td>{{ produit.quantite }}   </td>
+                                                    <td>{{ produit.prixHt }}</td>
+                                                    <td>{{ produit.tva }}</td>
+                                                    <td>{{ produit.unite }}</td>
+                                                    <td>{{ produit.imageName }}</td>
+                                                    <td class="project-actions text-right">
+                                                        <a class="btn btn-primary btn-sm"
+                                                           href="{{ path('produit_show', {'id': produit.id}) }}">
+                                                            <i class="fas fa-eye"> </i>
+                                                        </a>
+                                                        <a class="btn btn-info btn-sm"
+                                                           href="{{ path('produit_edit', {'id': produit.id}) }}">
+                                                            <i class="fas fa-pencil-alt"> </i>
+                                                        </a>
+                                                        <a class="btn btn-danger btn-sm"
+                                                           href="{{ path('produit_delete', { 'id': produit.id }) }}">
+                                                            <i class="fas fa-trash"> </i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot>
 
-        </tbody>#}
-        {% endfor %}
-    </table>
+                                                </tfoot>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-5">
+                                            <div class="dataTables_info" id="example1_info" role="status"
+                                                 aria-live="polite">Showing 1 to 10 of 57 entries
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-7">
+                                            <div class="dataTables_paginate paging_simple_numbers"
+                                                 id="example1_paginate">
+                                                <nav aria-label="...">
+                                                    <ul class="pagination">
+                                                        <li class="page-item disabled">
+                                                            <a class="page-link" href="#" tabindex="-1"
+                                                               aria-disabled="true">Previous</a>
+                                                        </li>
+                                                        <li class="page-item active" aria-current="page">
+                                                            {{ knp_pagination_render(produits) }}
+                                                        </li>
+
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#">Next</a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+
+                    </div>
+
+                </section>
 
             </div>
-        </div></section></div>
 
-{% endblock %}
+            <!-- /.card-header -->
+
+
+            {% endblock %}
+
