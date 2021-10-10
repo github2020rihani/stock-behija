@@ -20,54 +20,92 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
-    public function getAvecCategories(Filter  $filter)
+    public function getAvecCategories(Filter $filter)
     {
         $qb = $this->createQueryBuilder('p');
         // On fait une jointure avec l'entité Categorie, avec pour alias « c »
-        $qb ->join('p.Categorie', 'c')
+        $qb->join('p.Categorie', 'c')
             ->where($qb->expr()->in('c.name', $filter)); // Puis on filtre sur le nom des catégories à l'aide d'un IN
         // Enfin, on retourne le résultat
         return $qb->getQuery()
             ->getResult();
     }
 
-    public function getPaginatorProduit(int $page, int $length){
-        $queryBuilder= $this->createQueryBuilder('p')
+    public function getPaginatorProduit(int $page, int $length)
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
             //->join('p.Categorie', 'c')
-            ->orderBy('p.createdAt','desc')
+            ->orderBy('p.createdAt', 'desc')
             ->setFirstResult(($page - 1) * $length)
-            ->setMaxResults($length)
-        ;
-        return  $queryBuilder->getQuery()->getResult();
+            ->setMaxResults($length);
+        return $queryBuilder->getQuery()->getResult();
     }
-    public function coutProd(){
+
+    public function coutProd()
+    {
         return $this->createQueryBuilder('p')
             ->select('COUNT(p.id)')
             ->getQuery()
-            ->getScalarResult()
-        ;
+            ->getScalarResult();
 
     }
 
     public function getFilterProd(Filter $filter)
     {
-        $queryBuilder =  $this->createQueryBuilder('p');
-            if($filter !== null ){
-                $queryBuilder->where('p.Categorie = :categories')
-                    ->setParameter('categories',$filter->getCategories())
-                ;
+        $queryBuilder = $this->createQueryBuilder('p');
+        if ($filter !== null) {
+            $queryBuilder->where('p.Categorie = :categories')
+                ->setParameter('categories', $filter->getCategories());
 
-            }
-        if($filter->getKeyWord() !== null ) {
+        }
+        if ($filter->getKeyWord() !== null) {
             $queryBuilder
                 ->andWhere('p.designation LIKE :keyWord')
                 ->setParameter('keyWord', '%' . $filter->getKeyWord() . '%');
         }
 
-         return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder->getQuery()->getResult();
+
+
+    }
+
+
+    public function serachProductBydesignation($designation)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.designation LIKE :desc')
+            ->setParameter('desc', '%' . $designation . '%')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    public function serachProductBydesignationAndCategory($designation, $category)
+    {
+        dump($designation, $category);
+        return $this->createQueryBuilder('p')
+            ->where('p.Categorie = :cat')
+            ->andWhere('p.designation LIKE :desc')
+            ->setParameter('cat', $category)
+            ->setParameter('desc', '%'.$designation.'%')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
 
 
             }
+
+    public function serachProductBydCategory($category)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.Categorie = :cat')
+            ->setParameter('cat', $category)
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
 
     // /**
     //  * @return Produit[] Returns an array of Produit objects

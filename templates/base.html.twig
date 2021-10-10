@@ -54,7 +54,6 @@
 
 
 
-    {% block javascript %}
 
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
@@ -69,6 +68,10 @@
       $('.select2').select2()
     });
 </script>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- Select2 -->
@@ -79,13 +82,18 @@
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
 
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('js/demo.js') }}"></script>
+{#    <script src="{{ asset('js/demo.js') }}"></script>#}
 
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('stock/js/js-route/router.min.js') }}"></script>
+<script src="{{ asset('stock/js/fos_js_routes.js') }}"></script>
+
+    <script src="{{ asset('appjs/product/search_product.js') }}"></script>
 
 
-
-{% endblock %}
 
     </body>
 </html>
+{% block javascript %}
+
+{% endblock %}
