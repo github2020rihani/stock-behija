@@ -1,0 +1,45 @@
+<table id="example1"
+       class="table table-bordered table-striped dataTable dtr-inline"
+       aria-describedby="example1_info">
+    <thead>
+    <tr>
+        <th>Num article</th>
+        <th>Designation</th>
+        <th>Quatite</th>
+        <th>Prix HT</th>
+        <th>Tva</th>
+        <th>Unite</th>
+        <th>Images</th>
+        <th>Actions</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for produit in produits %}
+        <tr class="odd">
+            <td>{{ produit.code }}</td>
+            <td>{{ produit.designation }}</td>
+            <td>{{ produit.quantite }}   </td>
+            <td>{{ produit.prixHt }}</td>
+            <td>{{ produit.tva }}</td>
+            <td>{{ produit.unite }}</td>
+            <td>{{ produit.imageName }}</td>
+            <td class="project-actions text-right">
+                <a class="btn btn-primary btn-sm"
+                   href="{{ path('produit_show', {'id': produit.id}) }}">
+                    <i class="fas fa-eye"> </i>
+                </a>
+                <a class="btn btn-info btn-sm"
+                   href="{{ path('produit_edit', {'id': produit.id}) }}">
+                    <i class="fas fa-pencil-alt"> </i>
+                </a>
+                <a class="btn btn-danger btn-sm"
+                   href="{{ path('produit_delete', { 'id': produit.id }) }}">
+                    <i class="fas fa-trash"> </i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+</table>

@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * @Route("admin/produit")
@@ -28,44 +29,23 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProduitController extends AbstractController
 {
-    /**
-     * @Route("/", name="produit_index")
-     */
-    public function index2(Request $request, ProduitRepository $produitRepository): Response
-    {
-        $produit = new Produit();
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
-        $produits = $this->getDoctrine()->getRepository(Produit::class)->findAll();
-         $em= $this->getDoctrine()->getManagers();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($produit);
-            $entityManager->flush();
-
-        }
-        return $this->render('produit/index.html.twig', [
-            'form' => $form->createView(),
-            'produits' => $produits]);
-    }
     /**
      * @Route("/",  name="produit_index")
      */
     public function index(Request $request, FormFactoryInterface $formFactory, PaginatorInterface $paginator, SessionInterface $session, ProduitRepository $produitRepository)
     {
-        $filter = new Filter();
-        $form = $formFactory->create(FilterType::class, $filter);
 
          $em = $this->getDoctrine()->getManager();
 
          $query = $em->getRepository(Produit::class)->findAll();
 
        $produits = $paginator->paginate($query, $request->query->get('page', 1), 5);
+       $categories = $em->getRepository(Categories::class)->findAll();
 
         return $this->render('produit/index.html.twig', array(
             'produits' => $produits,
-            'form'=>$form->createView()
+            'categories' => $categories,
         ));
     }
 
@@ -148,4 +128,38 @@ class ProduitController extends AbstractController
     }
     dd($panierwithDate);
      */
+
+
+    /**
+     * @param Request $request
+     * @Route("/serch/critere", name="search_product")
+     */
+
+    public function searchProduct(Request $request, PaginatorInterface $paginator, ProduitRepository
+    $produitRepository) {
+
+        $des = $request->get('desic');
+        $cat = $request->get('category');
+        if (!$des && $cat) {
+            $query =   $produitRepository->serachProductBydCategory((int)$cat);
+            $produits = $paginator->paginate($query, $request->query->get('page', 1), 10);
+        }elseif ($des && !$cat) {
+            $query =   $produitRepository->serachProductBydesignation($des);
+            $produits = $paginator->paginate($query, $request->query->get('page', 1), 10);
+        }elseif ($des && $cat){
+            $query =   $produitRepository->serachProductBydesignationAndCategory($des , (int)$cat);
+            $produits = $paginator->paginate($query, $request->query->get('page', 1), 10);
+        }
+        $result = $this->render('produit/searchProduct.html.twig', array('produits' => $produits->getItems()))->getcontent();
+
+
+        return  $this->json(array('result'=> $result ));
+
+
+
+
+
+
+
+    }
 }

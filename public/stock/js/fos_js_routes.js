@@ -1,0 +1,1 @@
+fos.Router.setData({"base_url":"","routes":{"search_product":{"tokens":[["text","\/admin\/produit\/search\/product"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]});
